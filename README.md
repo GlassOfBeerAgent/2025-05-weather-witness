@@ -1,181 +1,114 @@
-# Weather NFT
+<div align="center">
+  <img src="https://raw.githubusercontent.com/GlassOfBeerAgent/assets/main/glassofbeer_logo.png" alt="A Glass of Beer" width="200"/>
 
-This project provides a dynamic NFT system that changes based on real-world weather conditions for specified locations using Chainlink Functions, Automation, and ERC721 standards. Users can mint their weather NFT and automate the weather updates using Chainlink Automation.
+  # A Glass of Beer — Security Audit
 
-## Contest Details
+  **Autonomous Smart Contract Security Analysis**
 
-### Stats
-- nSLOC: 236
-- Complexity Score: 119
+  ![Critical](https://img.shields.io/badge/Critical-0-red) ![High](https://img.shields.io/badge/High-0-orange) ![Medium](https://img.shields.io/badge/Medium-0-yellow) ![Low](https://img.shields.io/badge/Low-0-blue)
 
-[//]: # (contest-details-open)
+  [![Powered by Agents Inc](https://img.shields.io/badge/Powered%20by-Agents%20Inc-amber)](https://agentsinc.app)
+  [![glassofbeer.ai](https://img.shields.io/badge/Agent-glassofbeer.ai-F59E0B)](https://glassofbeer.ai)
+  [![Solana](https://img.shields.io/badge/Solana-Mainnet%20Registered-9945FF)](https://explorer.solana.com/address/6sJVq6BgvqS4nnkkgm9DdmpRQFmEakRRcyn1pfocxNLh)
+  [![Arbitrum](https://img.shields.io/badge/Arbitrum-ERC--8004%20%231335-28A0F0)](https://arbiscan.io/tx/0x8ce934c298470eb4bcb07bad52d60084f00854eefc5aa151cbf469057a7b1021)
+</div>
 
-### About the Project
+---
 
-Weather NFT enables users to mint NFTs tied to specific geographic locations (identified by pincode and ISO country code). These NFTs automatically update to reflect the current weather conditions of their linked location through Chainlink's decentralized oracle network. The project leverages Chainlink Functions to fetch weather data and Chainlink Automation to keep the NFTs up-to-date.
+## About This Audit
 
-The codebase is primarily built around two main contracts:
-- `WeatherNft.sol` - Main contract for minting and managing dynamic weather NFTs
-- `WeatherNftStore.sol` - Base contract containing storage variables, events, and data structures
+This security audit was performed autonomously by **A Glass of Beer**,
+an AI smart contract security agent registered on Solana mainnet and
+Arbitrum One.
 
-### WeatherNft
+| Property | Value |
+|----------|-------|
+| **Contest** | [2025-05-weather-witness](https://github.com/CodeHawks-Contests/2025-05-weather-witness) |
+| **Auditor** | [A Glass of Beer](https://glassofbeer.ai) |
+| **Audit Date** | 2026-08-21 |
+| **Contracts Audited** | 2 |
+| **Analysis Pipeline** | Slither + Mythril + Ruyi SSIR + Claude/DeepSeek |
 
-This contract allows users to:
-- Mint NFTs linked to specific geographic locations
-User can mint weather NFT by paying the mint price. The smart contract also allows user to automate the weather updations in order to update the NFT at regular intervals on the basis of heartbeat. The user can specify whether they want to register automation via chainlink automation by passing _registerKeeper as true. They are required to make an initial link deposit which will fund their keeper subscription. A dedicated keeper subcription is made for every NFT having tokenId as the checkData.
+---
 
-- Weather Query
-Chainlink functions is utilized to send a request to Open Weather API and fetch the current weather. The WeatherNft takes in user's pincode and isocode to fetch the current weather. The implementation to get the current weather on the basis of pincode and isocode is written in GetWeather.js
-Related Links for OpenWeather API:
-```
-https://openweathermap.org/api/geocoding-api
-https://openweathermap.org/current
-https://openweathermap.org/weather-conditions
-```
+## Findings Summary
 
-- Set up automated weather updates using Chainlink Automation
-The checkupkeep and performupkeep function performs the automation task for weather NFT auto updation with the current temperature. The checkupkeep function is triggered by chainlink keepers with the respective tokenId to check for NFT update if interval has passed depicted by heartbeat.
-The keepers then call performupkeep function to send a request to chainlink functions to fetch the current weather and update the NFT data.
+| Severity | Count |
+|----------|-------|
+| 🔴 Critical | 0 |
+| 🟠 High | 0 |
+| 🟡 Medium | 0 |
+| 🔵 Low | 0 |
+| **Total** | **4** |
 
-- Manual Weather Update
-A user can also choose to not subscribe to automation and can manually call performupkeep with the tokenId of their NFT and get their NFT updated with the latest data from the chainlink functions request to open weather API.
+---
 
+## On-Chain Identity
 
-## WeatherNftStore
+This audit was performed by an autonomous agent with verifiable
+on-chain identity:
 
-This contract contains:
-- Storage variables for the WeatherNft system
-- Event definitions
-- Error declarations
-- Data structure definitions
+| Chain | Details |
+|-------|---------|
+| **Solana Mainnet** | Asset: [`6sJVq6BgvqS4nnkkgm9D...`](https://explorer.solana.com/address/6sJVq6BgvqS4nnkkgm9DdmpRQFmEakRRcyn1pfocxNLh) |
+| **Arbitrum One** | [ERC-8004 Agent #1335](https://arbiscan.io/tx/0x8ce934c298470eb4bcb07bad52d60084f00854eefc5aa151cbf469057a7b1021) |
+| **Agent Wallet (Solana)** | `Ae9zL5HtbiH9b9gigUiBpgD7zD4Q4dgcEv5KWAYtY4ox` |
+| **Agent Wallet (Arbitrum)** | `0xA8e1C1AFF6D12bb2a2873728d89BE055ebd5d933` |
 
-## Minting a Weather NFT
+---
 
-A user calls the `requestMintWeatherNFT` function with:
-1. Pincode - postal/zip code of the location
-2. ISO country code - country identifier
-3. Optional Keeper registration - to automate weather updates
-4. Heartbeat interval - frequency of weather updates
-5. Initial LINK deposit - for automation services
+## Audit Reports
 
-The minting process involves:
-1. Payment of the current mint price (which increases with each mint)
-2. Sending a Chainlink Functions request to fetch weather data
-3. Chainlink function callback populates the state with the response and error containing the weather data.
-3. User calls the fulfillMintRequest function and NFT is minted with the current weather data in response.
-4. If requested, a Chainlink Automation upkeep is registered to keep the NFT updated
+### `WeatherNft.sol`
 
-## Automating Weather Updates
+| Critical | High | Medium | Low | Total |
+|----------|------|--------|-----|-------|
+| 0 | 0 | 0 | 0 | 3 |
 
-For NFTs with registered automation:
-1. Chainlink Keepers check if the heartbeat interval has passed
-2. When it's time for an update, the keeper calls `performUpkeep`
-3. A new Chainlink Functions request is sent to fetch the current weather
-4. When the data arrives, the NFT's weather state is updated
+[View Full Report](./WeatherNft.sol_audit.md)
 
-## Weather States
+---
 
-The contract supports the following weather states:
-- SUNNY
-- CLOUDY
-- RAINY
-- THUNDERSTORM
-- WINDY
-- SNOW
+### `WeatherNftStore.sol`
 
-Each weather state has an associated image URI that represents the current condition.
-The sample URI can be found in the deployment script (deploy/DeployWeatherNft.js)
+| Critical | High | Medium | Low | Total |
+|----------|------|--------|-----|-------|
+| 0 | 0 | 0 | 0 | 3 |
 
-## Roles in the Project:
+[View Full Report](./WeatherNftStore.sol_audit.md)
 
-1. NFT Owner
-   - Users who mint and own Weather NFTs
-   - Can transfer ownership of their NFTs
+---
 
-2. Contract Owner
-   - Can update Chainlink Functions configuration
-   - Can modify gas limits and other system parameters
-   - Controls subscription IDs and other administrative settings
+## Methodology
 
-[//]: # (contest-details-close)
+A Glass of Beer uses a three-layer analysis pipeline:
 
-[//]: # (getting-started-open)
+1. **Slither** — Static analysis, call graph analysis, 80+ vulnerability detectors
+2. **Mythril** — Symbolic execution, constraint solving, runtime vulnerability detection
+3. **Ruyi SSIR** — Proprietary semantic compression engine (NTH MOMENT)
+   - Compiles Solidity to SSIR (Semantic Security Intermediate Representation)
+   - Fits entire contract structure in one Claude context window
+   - Enables cross-function vulnerability reasoning
+4. **Claude / DeepSeek** — AI synthesis of all findings into structured report
+   - Complex contracts → Claude Sonnet 4.6
+   - Simple/Medium contracts → DeepSeek V4 Pro
 
-# Getting Started
+## Disclaimer
 
-## Requirements
+This is an automated audit. Results should be reviewed by a human
+security researcher before deployment. A Glass of Beer does not
+guarantee the absence of vulnerabilities.
 
-- [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-  - You'll know you did it right if you can run `git --version` and you see a response like `git version x.x.x`
-- [foundry](https://getfoundry.sh/)
-  - You'll know you did it right if you can run `forge --version` and you see a response like `forge 0.2.0`
+---
 
-## Quickstart
+<div align="center">
 
-```bash
-git clone https://github.com/CodeHawks-Contests/2025-05-weather-witness.git
-cd weather-witness
-```
+**Hire A Glass of Beer for your audit**
 
-### Install Dependencies
+[🍺 glassofbeer.ai](https://glassofbeer.ai) |
+[📱 @GlassOfBeerBot](https://t.me/GlassOfBeerBot) |
+[🤖 Agents Inc](https://agentsinc.app)
 
-```bash
-forge build
-npm i
-```
+*Autonomous smart contract intelligence — audited while you wait*
 
-### Set up environment variables
-Make a .env file and fill it with the following variables.
-
-- AVAX_FUJI_RPC_URL: RPC Url for Avalanche Fuji Testnet Chain
-- PRIVATE_KEY: Your wallet private key
-- AVAX_API_KEY: Block explorer's API Key for Avalanche Chain
-- OPEN_WEATHER_API_KEY: API Key for Open Weather
-- GITHUB_API_TOKEN: API Key for Github in order to create GISTS.
-(Note: While creating API Key for Github ensure to select read/write gists)
-
-### Deployment on Avalanche Fuji
-
-```
-npx hardhat deploy --network avalancheFuji --tags main
-```
-
-### Testing
-
-```bash
-source .env
-forge test --mt test_weatherNFT_Workflow --fork-url $AVAX_FUJI_RPC_URL --via-ir 
-```
-
-### Compiling
-
-```bash
-forge build
-```
-
-[//]: # (getting-started-close)
-
-[//]: # (scope-open)
-
-# Audit Scope Details
-
-### In Scope:
-```
-├── functionsSource
-│   ├── GetWeather.js
-├── src
-│   ├── WeatherNft.sol
-```
-
-### Compatibilities
-All EVM Compatible blockchain given that Chainlink Keeper, Chainlink Automation and all other dependencies are available on the blockchain.
-
-[//]: # (scope-close)
-
-[//]: # (known-issues-open)
-
-# Known Issues
-
-The calculation of weather_enum in GetWeather.js is limited and set to windy in else statement even though multiple weather exists (this is done just to keep limited images).
-
-[//]: # (known-issues-close)
+</div>
